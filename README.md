@@ -1,0 +1,6 @@
+- Students :
+  - Joseph Azzi (202500106)
+  - Edward Khazzoum (202500740)
+- Github link : https://github.com/JoAz06/CSC456P2
+- The live Render deployment URL.
+- The MongoDB Atlas database connection string URI (The connection must beproperly configured).

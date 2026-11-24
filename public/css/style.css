@@ -1,0 +1,32 @@
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 1rem;
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+}
+
+footer nav {
+  display: flex;
+  gap: 1.25rem;
+}
