@@ -52,3 +52,5 @@ coverage/
 Thumbs.db
 .vscode/
 .idea/
+
+logs.db

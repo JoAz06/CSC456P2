@@ -1,6 +1,12 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const mongoose = require('mongoose');
+
+const userController = require('./controllers/userController');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 async function main() {
     try {
@@ -25,6 +31,8 @@ async function main() {
         app.get('/', (req, res) => {
             res.render('index', { title: 'Home Page', message: 'Welcome to EJS!' });
         });
+
+        app.get('/users', userController.getAll);
 
         app.listen(3000, () => console.log('Server running on port 3000'));
 
