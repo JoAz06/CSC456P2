@@ -1,0 +1,48 @@
+<%- include('../partials/header') %>
+    <h1>Add Genre</h1>
+
+    <% if (typeof error !=='undefined' && error) { %>
+        <p class="error">
+            <%= error %>
+        </p>
+        <% } %>
+
+            <form method="POST" action="/genre">
+                <input name="name" placeholder="Name" required>
+                <input name="description" placeholder="Description">
+                <button type="submit">Add</button>
+            </form>
+
+            <div>
+                <% genres.forEach(genre=> { %>
+                    <div class="user">
+                        <ul>
+                            <li>Name : <%= genre.name %>
+                            </li>
+                            <li>Description : <%= genre.description %>
+                            </li>
+                            <ul>
+                                <% genre.books.forEach(book=>{ %>
+                                    <li>
+                                        <%= book.title %>
+                                    </li>
+                                    <% }) %>
+                            </ul>
+                        </ul>
+                        <button class="delete-btn" data-name="<%= genre.name %>">Delete</button>
+                    </div>
+                    <% }) %>
+            </div>
+            <%- include('../partials/footer') %>
+                </body>
+
+                </html>
+                <script>
+                    document.querySelectorAll('.delete-btn').forEach(btn => {
+                        btn.addEventListener('click', async () => {
+                            if (!confirm('Delete this genre?')) return;
+                            const res = await fetch('/genre/' + btn.dataset.name, { method: 'DELETE' });
+                            window.location.reload()
+                        });
+                    });
+                </script>

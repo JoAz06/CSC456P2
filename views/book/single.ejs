@@ -1,0 +1,44 @@
+<%- include('../partials/header') %>
+    <a href="/book">← Back</a>
+
+    <h1>
+        <%= book.title %>
+    </h1>
+    <p>Author: <%= book.author %>
+    </p>
+    <p>ISBN: <%= book.isbn %>
+    </p>
+
+    <h3>Genres on this book</h3>
+    <ul>
+        <% book.genres.forEach(genre=> { %>
+            <li><a data-url="/book/<%= book.isbn %>/genre/<%= genre.name %>" href="#" class="removeGenre">
+                    <%= genre.name %>
+                </a></li>
+            <% }) %>
+    </ul>
+
+    <h3>Add a genre</h3>
+    <% availableGenres.forEach(genre=> { %>
+        <form method="POST" action="/book/<%= book.isbn %>/genre/<%= genre.name %>" style="display:inline">
+            <button type="submit">
+                <%= genre.name %>
+            </button>
+        </form>
+        <% }) %>
+            <% if (availableGenres.length===0) { %>
+                <p>All genres already added.</p>
+                <% } %>
+                    <%- include('../partials/footer') %>
+
+                        <script>
+                            document.querySelectorAll('.removeGenre').forEach(link => {
+                                link.addEventListener('click', async (e) => {
+                                    e.preventDefault();
+                                    if (!confirm('Remove this genre?')) return;
+                                    console.log(link.dataset.url);
+                                    const res = await fetch(link.dataset.url, { method: 'DELETE' });
+                                    window.location.reload()
+                                });
+                            });
+                        </script>

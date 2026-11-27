@@ -12,7 +12,7 @@ exports.getAll = async (req, res) => {
         Logger.log('CONTROLLER', 'Get all users');
         const users = await userService.getAll();
         // res.status(200).json(users);
-        res.render('users', { title: "Users Page", users: users, user: req.user || null });
+        res.render('users', { title: "Users Page", users: users});
     } catch (err) {
         sendError(res, err);
     }

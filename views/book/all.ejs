@@ -1,0 +1,51 @@
+<%- include('../partials/header') %>
+    <h1>Add Book</h1>
+
+    <% if (typeof error !=='undefined' && error) { %>
+        <p class="error">
+            <%= error %>
+        </p>
+        <% } %>
+
+            <form method="POST" action="/book">
+                <input name="title" placeholder="Title" required>
+                <input name="author" placeholder="Author" required>
+                <input name="isbn" placeholder="ISBN" required>
+                <button type="submit">Add</button>
+            </form>
+
+            <div>
+                <% books.forEach(book=> { %>
+                    <div class="user">
+                        <ul>
+                            <li>Title : <a href="/book/<%= book.isbn %>"><%= book.title %></a>
+                            </li>
+                            <li>Author : <%= book.author %>
+                            </li>
+                            <li>ISBN : <%= book.isbn %>
+                            </li>
+                            <ul>
+                                <% book.genres.forEach(genre=>{ %>
+                                    <li>
+                                        <%= genre.name %>
+                                    </li>
+                                    <% }) %>
+                            </ul>
+                        </ul>
+                        <button class="delete-btn" data-isbn="<%= book.isbn %>">Delete</button>
+                    </div>
+                    <% }) %>
+            </div>
+            <%- include('../partials/footer') %>
+                </body>
+
+                </html>
+                <script>
+                    document.querySelectorAll('.delete-btn').forEach(btn => {
+                        btn.addEventListener('click', async () => {
+                            if (!confirm('Delete this book?')) return;
+                            const res = await fetch('/book/' + btn.dataset.isbn, { method: 'DELETE' });
+                            window.location.reload()
+                        });
+                    });
+                </script>

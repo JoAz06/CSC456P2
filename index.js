@@ -6,6 +6,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const cookieParser = require("cookie-parser");
+const { authenticateToken, isAdmin } = require('./middleware/auth');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,23 +29,7 @@ function populateUser(req, res, next) {
 }
 app.use(populateUser);
 
-function authenticateToken(req, res, next) {
-    const token = req.cookies.token;
-    if (!token) return res.redirect("/account/login");
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) return res.status(403).send("Invalid or expired token");
-        req.user = user;
-        next();
-    });
-}
-
-function isAdmin(req, res, next) {
-    if (req.user.role === "admin") return next();
-    res.status(403).send("Access denied");
-}
-
-module.exports = { populateUser, authenticateToken, isAdmin };
+module.exports = { populateUser};
 // const { populateUser, authenticateToken, isAdmin } = require('../index');
 
 
