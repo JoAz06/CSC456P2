@@ -1,0 +1,75 @@
+<%- include('../partials/header') %>
+
+    <main>
+        <h1>Create an account</h1>
+
+        <% if (typeof error !=='undefined' && error) { %>
+            <p class="error">
+                <%= error %>
+            </p>
+            <% } %>
+
+                <form action="/account/register" method="POST">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" minlength="6" required>
+
+                    <label for="confirmPassword">Confirm password</label>
+                    <input type="password" id="confirmPassword" minlength="6" required>
+
+                    <label>
+                        <input type="checkbox" name="role" value="admin">
+                        Admin ?
+                    </label>
+
+                    <label>
+                        <input type="checkbox" id="setExpiry" name="setExpiry">
+                        Set a card expiration date
+                    </label>
+
+                    <div id="expiryField" hidden>
+                        <label for="expiryDate">Expiration date</label>
+                        <input type="date" id="expiryDate" name="expiryDate">
+                    </div>
+
+                    <script>
+                        const toggle = document.getElementById('setExpiry');
+                        const field = document.getElementById('expiryField');
+                        const expiryInput = document.getElementById('expiryDate');
+
+                        expiryInput.min = new Date().toISOString().split('T')[0];
+
+                        function sync() {
+                            field.hidden = !toggle.checked;
+                            expiryInput.disabled = !toggle.checked;
+                            expiryInput.required = toggle.checked;
+                        }
+                        toggle.addEventListener('change', sync);
+                        sync();
+
+                        const password = document.getElementById('password');
+                        const confirmPassword = document.getElementById('confirmPassword');
+
+                        function validatePasswords() {
+                            if (confirmPassword.value && password.value !== confirmPassword.value) {
+                                confirmPassword.setCustomValidity('Passwords do not match.');
+                            } else {
+                                confirmPassword.setCustomValidity('');
+                            }
+                        }
+
+                        password.addEventListener('input', validatePasswords);
+                        confirmPassword.addEventListener('input', validatePasswords);
+                    </script>
+                    <button type="submit">Register</button>
+                </form>
+
+                <p>Already have an account? <a href="/account/login">Log in</a></p>
+    </main>
+
+    <%- include('../partials/footer') %>

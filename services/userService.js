@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const LibraryCard = require('../models/LibraryCard');
 const Logger = require('../logger');
@@ -15,7 +16,7 @@ function validateUserId(userId) {
     }
 }
 
-function getUserFields(data) {
+async function getUserFields(data) {
     if (!data || typeof data !== 'object' || Array.isArray(data)) {
         throw createError('Request body must be a JSON object', 400);
     }
@@ -23,6 +24,8 @@ function getUserFields(data) {
     const fields = {};
     if (data.name !== undefined) fields.name = data.name;
     if (data.email !== undefined) fields.email = data.email;
+    if (data.role !== undefined) fields.role = data.role;
+    if (data.password !== undefined) fields.password = await bcrypt.hash(data.password, 10);
     return fields;
 }
 
@@ -49,7 +52,7 @@ exports.getOne = async (userId) => {
 
 exports.addOne = async (data) => {
     try {
-        const fields = getUserFields(data);
+        const fields = await getUserFields(data);
         if (!data.libraryCard) {
             throw createError('libraryCard is required', 400);
         }
@@ -77,7 +80,7 @@ exports.addOne = async (data) => {
 exports.updateOne = async (userId, data) => {
     try {
         validateUserId(userId);
-        const fields = getUserFields(data);
+        const fields = await getUserFields(data);
         if (data.libraryCard !== undefined) {
             throw createError('libraryCard cannot be changed through this operation', 400);
         }

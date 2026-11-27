@@ -30,3 +30,14 @@ footer nav {
   display: flex;
   gap: 1.25rem;
 }
+
+#external {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.user {
+  border: 1px solid black;
+  padding: 10px;
+  margin: 10px;
+}

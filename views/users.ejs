@@ -1,9 +1,16 @@
 <%- include('partials/header') %>
-  <ul>
+  <div id="external">
     <% users.forEach(user => { %>
-      <li><%= user.name %></li>
+      <div class="user">
+        <ul>
+          <li>Name: <%= user.name %></li>
+          <li>Email: <%= user.email %></li>
+          <li>Role: <%= user.role %></li>
+          <li>Library Card ID: <%= user.libraryCard %></li>
+        </ul>
+      </div>
     <% }) %>
-  </ul>
+  </div>
   <%- include('partials/footer') %>
 </body>
 </html>

@@ -1,5 +1,7 @@
 <%- include('partials/header') %>
-
+<% if (user && user !== null) { %>
+  <h1>Hello :<%= user.name %></h1>
+<% } %>
 <h1>Welcome to the Home Page</h1>
 <p>Your page content goes here.</p>
 
